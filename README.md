@@ -2,30 +2,21 @@ BrownLNMP（Docker + Nginx + MySQL + PHP7 + Redis+supervisor）是一款全功�
 
 
 
-## 项目特点：
+## 项目目的：
 
-1. `100%`开源
-2. `100%`遵循Docker标准
-3. 支持**多版本PHP**共存，可任意切换（PHP7.2、PHP7.3)后续会**加入更多版本**
-4. 支持绑定**任意多个域名**
-5. 支持**HTTPS和HTTP/2**
-6. **PHP源代码、MySQL数据、配置文件、日志文件**都可在Host中直接修改查看
-7. 内置**完整PHP扩展安装**命令
-8. 默认支持`pdo_mysql`、`mysqli`、`mbstring`、`gd`、`curl`、`opcache`等常用热门扩展，根据环境灵活配置
-9. 可一键选配常用服务：
-   - 多PHP版本：PHP5.4、PHP5.6、PHP7.1-7.3、PHP8.0
-   - Web服务：Nginx、Openresty
-   - 数据库：MySQL5、MySQL8、Redis、memcached（后续加入）、MongoDB（后续加入）、ElasticSearch（后续加入）
+1. 支持**多版本PHP**切换
+2. 支持**HTTPS**
+3. **PHP源代码、MySQL数据、配置文件、日志文件**在相应目录中中直接修改查看
+4. **完整PHP扩展安装**命令
+5. 后续加入：
+   - 数据库：memcached（后续加入）、MongoDB（后续加入）、ElasticSearch（后续加入）
    - 消息队列：RabbitMQ（后续加入）
    - 辅助工具：Kibana（后续加入）、Logstash（后续加入）、phpMyAdmin（后续加入）、phpRedisAdmin（后续加入）、AdminMongo（后续加入）
-10. 实际项目中应用，确保`100%`可用
-11. 所有镜像源于[Docker官方仓库](https://hub.docker.com)，安全可靠
-12. 一次配置，**Windows、Linux、MacOs**皆可用
-13. 支持快速安装扩展命令 `install-php-extensions apcu`
+6. 支持快速安装扩展命令 `install-php-extensions apcu`
 
 
 
-## 1.目录结构
+## 目录结构
 
 ```
 /
@@ -46,7 +37,7 @@ BrownLNMP（Docker + Nginx + MySQL + PHP7 + Redis+supervisor）是一款全功�
 └── www                         PHP 代码目录（初始目录）
 ```
 
-## 2.快速使用
+## 快速使用
 
 1. 本地安装
 
@@ -83,37 +74,35 @@ BrownLNMP（Docker + Nginx + MySQL + PHP7 + Redis+supervisor）是一款全功�
    $ docker-compose up -d                              # 后台启动
    ```
 
-5. 在浏览器中访问：`http://localhost`或`https://localhost`(自签名HTTPS演示)就能看到效果，PHP代码在文件`./www/localhost/index.php`。
+5. 在浏览器中访问
 
-## 3.PHP和扩展
+## PHP和扩展
 
-### 3.1 切换Nginx使用的PHP版本
+### 切换Nginx使用的PHP版本
 
-首先，需要启动其他版本的PHP，比如PHP7.4。需要在.env中php版本切换（仅支持php5.6-php7），php5.6以下及php8暂不支持。
+切换其他版本的PHP，需要在.env中php版本切换（仅支持php5.6-php7），php5.6以下及php8暂不支持。
 
-然后重新build PHP镜像。
+重新build镜像
 
 ```bash
 docker-compose build php
 ```
 
-**重启 Nginx** 
+**重启 Nginx**
 
 ```bash
 $ docker exec -it tynginx nginx -s reload
 ```
 
-这里两个`nginx`，第一个是容器名，第二个是容器中的`nginx`程序。
+### 安装PHP扩展
 
-### 3.2 安装PHP扩展
-
-PHP的很多功能都是通过扩展实现， 所以，除PHP内置扩展外，在`env.sample`文件中安装扩展示例， 如果要安装更多扩展，请打开你的`.env`文件修改如下的PHP配置， 增加需要的PHP扩展：
+`.env`文件修改如下的PHP配置， 增加需要的PHP扩展：
 
 ```bash
 PHP_EXTENSIONS=pdo_mysql,opcache,redis       # PHP 要安装的扩展列表，英文逗号隔开
 ```
 
-然后重新build PHP镜像。
+然后重新build镜像。
 
 ```bash
 docker-compose build php
@@ -133,7 +122,7 @@ docker-compose build php
 # psr,phalcon,sdebug,ssh2,yaml,protobuf,hprose
 ```
 
-### 3.3 快速安装php扩展
+### 快速安装php扩展
 
 *Number of supported extensions: 115*
 
@@ -267,11 +256,11 @@ install-php-extensions 拓展名称
 | zookeeper                                           | ✓       | ✓       | ✓       | ✓       | ✓       | ✓       | ✓       | ✓       | ✓       |
 | zstd                                                | ✓       | ✓       | ✓       | ✓       | ✓       | ✓       | ✓       | ✓       | ✓       |
 
-### 3.5 使用composer
+### 使用composer
 
 ### 容器内使用composer命令
 
-还有另外一种方式，就是进入容器，再执行`composer`命令，以PHP7容器为例：
+进入容器，再执行`composer`命令
 
 ```bash
 docker exec -it php /bin/sh
@@ -279,7 +268,7 @@ cd /www/localhost
 composer require  ***
 ```
 
-## 4.管理命令
+## 管理命令
 
 ### 服务器启动和构建命令
 
