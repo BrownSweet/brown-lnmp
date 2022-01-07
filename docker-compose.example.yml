@@ -1,48 +1,48 @@
 version: "2"
 services:
 
-  #  nginx:
-  #    build:
-  #      context: ./services/nginx
-  #      args:
-  #        NGINX_VERSION: nginx:${NGINX_VERSION}
-  #        CONTAINER_PACKAGE_URL: ${CONTAINER_PACKAGE_URL}
-  #        NGINX_INSTALL_APPS: ${NGINX_INSTALL_APPS}
-  #    container_name: tynginx
-  #    ports:
-  #      - "${NGINX_HTTP_HOST_PORT}:80"
-  #      - "${NGINX_HTTPS_HOST_PORT}:443"
-  #    volumes:
-  #      - ${SOURCE_DIR}:/www/:rw
-  #      - ${NGINX_SSL_CERTIFICATE_DIR}:/ssl:rw
-  #      - ${NGINX_CONFD_DIR}:/etc/nginx/conf.d/:rw
-  #      - ${NGINX_CONF_FILE}:/etc/nginx/nginx.conf:ro
-  #      - ${NGINX_FASTCGI_PHP_CONF}:/etc/nginx/fastcgi-php.conf:ro
-  #      - ${NGINX_FASTCGI_PARAMS}:/etc/nginx/fastcgi_params:ro
-  #      - ${NGINX_LOG_DIR}:/var/log/nginx/:rw
-  #    environment:
-  #      TZ: "$TZ"
-  #    restart: always
-  #    networks:
-  #      - default
-  openresty:
-    image:  openresty/openresty:${OPENRESTY_VERSION}
-    container_name: tyopenresty
+  nginx:
+    build:
+      context: ./services/nginx
+      args:
+        NGINX_VERSION: nginx:${NGINX_VERSION}
+        CONTAINER_PACKAGE_URL: ${CONTAINER_PACKAGE_URL}
+        NGINX_INSTALL_APPS: ${NGINX_INSTALL_APPS}
+    container_name: tynginx
     ports:
-      - "${OPENRESTY_HTTP_HOST_PORT}:80"
-      - "${OPENRESTY_HTTPS_HOST_PORT}:443"
+      - "${NGINX_HTTP_HOST_PORT}:80"
+      - "${NGINX_HTTPS_HOST_PORT}:443"
     volumes:
       - ${SOURCE_DIR}:/www/:rw
-      - ${OPENRESTY_CONFD_DIR}:/etc/nginx/conf.d/:ro
-      - ${OPENRESTY_SSL_CERTIFICATE_DIR}:/ssl:rw
-      - ${OPENRESTY_CONF_FILE}:/usr/local/openresty/nginx/conf/nginx.conf:ro
-      - ${OPENRESTY_FASTCGI_PHP_CONF}:/usr/local/openresty/nginx/conf/fastcgi-php.conf:ro
-      - ${OPENRESTY_CONF_FASTCGIPARAMS_FILE}:/usr/local/openresty/nginx/conf/fastcgi_params:ro
-      - ${OPENRESTY_LOG_DIR}:/var/log/nginx/:rw
+      - ${NGINX_SSL_CERTIFICATE_DIR}:/ssl:rw
+      - ${NGINX_CONFD_DIR}:/etc/nginx/conf.d/:rw
+      - ${NGINX_CONF_FILE}:/etc/nginx/nginx.conf:ro
+      - ${NGINX_FASTCGI_PHP_CONF}:/etc/nginx/fastcgi-php.conf:ro
+      - ${NGINX_FASTCGI_PARAMS}:/etc/nginx/fastcgi_params:ro
+      - ${NGINX_LOG_DIR}:/var/log/nginx/:rw
     environment:
       TZ: "$TZ"
+    restart: always
     networks:
       - default
+#  openresty:
+#    image:  openresty/openresty:${OPENRESTY_VERSION}
+#    container_name: tyopenresty
+#    ports:
+#      - "${OPENRESTY_HTTP_HOST_PORT}:80"
+#      - "${OPENRESTY_HTTPS_HOST_PORT}:443"
+#    volumes:
+#      - ${SOURCE_DIR}:/www/:rw
+#      - ${OPENRESTY_CONFD_DIR}:/etc/nginx/conf.d/:ro
+#      - ${OPENRESTY_SSL_CERTIFICATE_DIR}:/ssl:rw
+#      - ${OPENRESTY_CONF_FILE}:/usr/local/openresty/nginx/conf/nginx.conf:ro
+#      - ${OPENRESTY_FASTCGI_PHP_CONF}:/usr/local/openresty/nginx/conf/fastcgi-php.conf:ro
+#      - ${OPENRESTY_CONF_FASTCGIPARAMS_FILE}:/usr/local/openresty/nginx/conf/fastcgi_params:ro
+#      - ${OPENRESTY_LOG_DIR}:/var/log/nginx/:rw
+#    environment:
+#      TZ: "$TZ"
+#    networks:
+#      - default
   php:
     build:
       context: ./services/php
@@ -69,20 +69,20 @@ services:
       - default
 
 
-  #  mysql:
-  #    image: mysql:${MYSQL_VERSION}
-  #    container_name: tymysql8
-  #    ports:
-  #      - "${MYSQL_HOST_PORT}:3306"
-  #    volumes:
-  #      - ${MYSQL_CONF_FILE}:/etc/mysql/conf.d/mysql.cnf:ro
-  #      - ${DATA_DIR}/mysql:/var/lib/mysql/:rw
-  #    restart: always
-  #    networks:
-  #      - default
-  #    environment:
-  #      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
-  #      TZ: "$TZ"
+#  mysql:
+#      image: mysql:${MYSQL_VERSION}
+#      container_name: tymysql8
+#      ports:
+#        - "${MYSQL_HOST_PORT}:3306"
+#      volumes:
+#        - ${MYSQL_CONF_FILE}:/etc/mysql/conf.d/mysql.cnf:ro
+#        - ${DATA_DIR}/mysql:/var/lib/mysql/:rw
+#      restart: always
+#      networks:
+#        - default
+#      environment:
+#        MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+#        TZ: "$TZ"
 
 #  mysql5:
 #    image: mysql:${MYSQL5_VERSION}
@@ -100,20 +100,20 @@ services:
 #      TZ: "$TZ"
 
 
-#  redis:
-#    image: redis:${REDIS_VERSION}
-#    container_name: tyredis
-#    ports:
-#      - "${REDIS_HOST_PORT}:6379"
-#    volumes:
-#      - ${REDIS_CONF_FILE}:/etc/redis.conf:ro
-#      - ${DATA_DIR}/redis:/data/:rw
-#    restart: always
-#    entrypoint: ["redis-server", "/etc/redis.conf"]
-#    environment:
-#      TZ: "$TZ"
-#    networks:
-#      - default
+  redis:
+    image: redis:${REDIS_VERSION}
+    container_name: tyredis
+    ports:
+      - "${REDIS_HOST_PORT}:6379"
+    volumes:
+      - ${REDIS_CONF_FILE}:/etc/redis.conf:ro
+      - ${DATA_DIR}/redis:/data/:rw
+    restart: always
+    entrypoint: ["redis-server", "/etc/redis.conf"]
+    environment:
+      TZ: "$TZ"
+    networks:
+      - default
 
 
 #  supervisor:
@@ -141,5 +141,18 @@ services:
 #      - SYS_PTRACE
 #    networks:
 #      - default
+
+  node:
+    image: node:${NODE_VERSION}
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ${SOURCE_DIR}:/www/:rw
+    expose:
+      - "8081"
+    networks:
+      - default
+    stdin_open: true
+    tty: true
 networks:
   default:
