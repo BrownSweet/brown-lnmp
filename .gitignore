@@ -1,5 +1,9 @@
-.idea
-.DS_Store
-logs/*
-docker-compose.yml
-.env
+/dev/nginx/v2/www/tp5.1
+/dev/nginx/v2/www/tp5.2
+runtime
+thinkphp
+vendor
+/.idea
+/tianyu/*.env
+/tianyu/.env
+/.env
