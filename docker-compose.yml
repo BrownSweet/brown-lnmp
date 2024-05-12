@@ -325,6 +325,25 @@ services:
     networks:
       - backend
     container_name: tianyu-consul3
+  node:
+    build:
+      context: ./services/node
+      args:
+        NODE_VERSION: node:${NODE_VERSION}
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ${SOURCE_SHARE_DIR}:/var/www:rw
+
+    ports:
+      - "8081:8081"
+    expose:
+      - "8081"
+    networks:
+      - backend
+    container_name: tianyu-node
+    stdin_open: true
+    tty: true
 networks:
   backend:
     driver: bridge
